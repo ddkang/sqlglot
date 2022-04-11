@@ -546,7 +546,7 @@ class Tokenizer:
     @property
     def _text(self):
         if self.__text is None:
-            self.__text = self.code[self._start : self._current]
+            self.__text = self.code[self._start: self._current]
         return self.__text
 
     def _add(self, token_type, text=None):
@@ -554,7 +554,8 @@ class Tokenizer:
         self.tokens.append(Token(token_type, text, self._line, self._col))
 
         if token_type in self.COMMANDS and (
-            len(self.tokens) == 1 or self.tokens[-2].token_type == TokenType.SEMICOLON
+            len(
+                self.tokens) == 1 or self.tokens[-2].token_type == TokenType.SEMICOLON
         ):
             self._start = self._current
             while not self._end and self._peek != ";":
@@ -631,7 +632,8 @@ class Tokenizer:
                     literal.append(self._peek.upper())
                     self._advance()
                 literal = "".join(literal)
-                token_type = self.KEYWORDS.get(self.numeric_literals.get(literal))
+                token_type = self.KEYWORDS.get(
+                    self.numeric_literals.get(literal))
                 if token_type:
                     self._add(TokenType.DCOLON, "::")
                     return self._add(token_type, literal)
@@ -645,7 +647,8 @@ class Tokenizer:
 
         while True:
             if self._end:
-                raise RuntimeError(f"Missing {quote} from {self._line}:{self._start}")
+                raise RuntimeError(
+                    f"Missing {quote} from {self._line}:{self._start}")
             text.append(self._char)
             self._advance()
 
@@ -659,7 +662,8 @@ class Tokenizer:
 
         text.append(self._char)
         text = "".join(text[1:-1])
-        text = text.encode(self.encode).decode(self.encode) if self.encode else text
+        text = text.encode(self.encode).decode(
+            self.encode) if self.encode else text
         text = text.replace("\\\\", "\\") if self.escape == "\\" else text
         self._add(TokenType.STRING, text)
 

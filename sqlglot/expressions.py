@@ -413,7 +413,8 @@ class Join(Expression):
 
 
 class Lateral(Expression):
-    arg_types = {"this": True, "outer": False, "table": False, "columns": False}
+    arg_types = {"this": True, "outer": False,
+                 "table": False, "columns": False}
 
 
 class Offset(Expression):
@@ -458,7 +459,8 @@ class Unnest(Expression):
 
 
 class Update(Expression):
-    arg_types = {"this": True, "expressions": True, "from": False, "where": False}
+    arg_types = {"this": True, "expressions": True,
+                 "from": False, "where": False}
 
 
 class Values(Expression):
@@ -499,7 +501,8 @@ class TableSample(Expression):
 
 
 class Window(Expression):
-    arg_types = {"this": True, "partition_by": False, "order": False, "spec": False}
+    arg_types = {"this": True, "partition_by": False,
+                 "order": False, "spec": False}
 
 
 class WindowSpec(Expression):
@@ -1106,7 +1109,8 @@ class Year(Func):
 
 def _norm_args(expression):
     return {
-        k: _norm_arg(arg) if not isinstance(arg, list) else [_norm_arg(a) for a in arg]
+        k: _norm_arg(arg) if not isinstance(
+            arg, list) else [_norm_arg(a) for a in arg]
         for k, arg in expression.args.items()
     }
 

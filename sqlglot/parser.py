@@ -277,9 +277,10 @@ class Parser:
         token = token or self._curr or self._prev or Token.string("")
         start = self._find_token(token, self.code)
         end = start + len(token.text)
-        start_context = self.code[max(start - self.error_message_context, 0) : start]
+        start_context = self.code[max(
+            start - self.error_message_context, 0): start]
         highlight = self.code[start:end]
-        end_context = self.code[end : end + self.error_message_context]
+        end_context = self.code[end: end + self.error_message_context]
         self.errors.append(
             ParseError(
                 f"{message}. Line {token.line}, Col: {token.col}.\n"
@@ -328,7 +329,8 @@ class Parser:
         self._curr = list_get(self._tokens, self._index)
         self._next = list_get(self._tokens, self._index + 1)
         self._prev = (
-            list_get(self._tokens, self._index - 1) if self._index > 0 else None
+            list_get(self._tokens, self._index -
+                     1) if self._index > 0 else None
         )
 
     def _retreat(self, index):
@@ -394,7 +396,8 @@ class Parser:
         replace = self._match(TokenType.OR) and self._match(TokenType.REPLACE)
         temporary = self._match(TokenType.TEMPORARY)
 
-        create_token = self._match_set((TokenType.TABLE, TokenType.VIEW)) and self._prev
+        create_token = self._match_set(
+            (TokenType.TABLE, TokenType.VIEW)) and self._prev
 
         if not create_token:
             self.raise_error("Expected TABLE or View")
@@ -431,9 +434,11 @@ class Parser:
             options["parsed"] = False
 
             parse_option("engine", TokenType.ENGINE, self._parse_var)
-            parse_option("auto_increment", TokenType.AUTO_INCREMENT, self._parse_number)
+            parse_option("auto_increment",
+                         TokenType.AUTO_INCREMENT, self._parse_number)
             parse_option("collate", TokenType.COLLATE, self._parse_var)
-            parse_option("comment", TokenType.SCHEMA_COMMENT, self._parse_string)
+            parse_option("comment", TokenType.SCHEMA_COMMENT,
+                         self._parse_string)
 
             if not options["character_set"]:
                 default = self._match(TokenType.DEFAULT)
@@ -469,7 +474,8 @@ class Parser:
             value = self._parse_schema() or self._parse_field()
 
             if schema and not isinstance(value, exp.Schema):
-                columns = {v.text("this").upper() for v in value.args["expressions"]}
+                columns = {v.text("this").upper()
+                           for v in value.args["expressions"]}
                 partitions = [
                     expression
                     for expression in schema.args["expressions"]
@@ -493,7 +499,8 @@ class Parser:
 
         if self._match(TokenType.WITH):
             self._match_l_paren()
-            properties.extend(self._parse_csv(lambda: self._parse_property(schema)))
+            properties.extend(self._parse_csv(
+                lambda: self._parse_property(schema)))
             self._match_r_paren()
         else:
             if self._match_by(TokenType.PARTITION):
@@ -511,7 +518,8 @@ class Parser:
                     self.expression(
                         exp.Property,
                         this=exp.Literal.string(c.FORMAT),
-                        value=exp.Literal.string(self._parse_var().text("this")),
+                        value=exp.Literal.string(
+                            self._parse_var().text("this")),
                     )
                 )
 
@@ -522,7 +530,8 @@ class Parser:
                         lambda: self.expression(
                             exp.Property,
                             this=self._parse_string(),
-                            value=self._match(TokenType.EQ) and self._parse_string(),
+                            value=self._match(
+                                TokenType.EQ) and self._parse_string(),
                         )
                     )
                 )
@@ -747,11 +756,13 @@ class Parser:
 
         while True:
             side = (
-                self._match_set((TokenType.LEFT, TokenType.RIGHT, TokenType.FULL))
+                self._match_set(
+                    (TokenType.LEFT, TokenType.RIGHT, TokenType.FULL))
                 and self._prev
             )
             kind = (
-                self._match_set((TokenType.INNER, TokenType.OUTER, TokenType.CROSS))
+                self._match_set(
+                    (TokenType.INNER, TokenType.OUTER, TokenType.CROSS))
                 and self._prev
             )
 
@@ -779,7 +790,8 @@ class Parser:
             self._match_r_paren()
         else:
             db = None
-            table = (not schema and self._parse_function()) or self._parse_id_var()
+            table = (not schema and self._parse_function()
+                     ) or self._parse_id_var()
 
             if self._match(TokenType.DOT):
                 db = table
@@ -813,7 +825,8 @@ class Parser:
         expressions = self._parse_csv(self._parse_table)
         self._match_r_paren()
 
-        ordinality = self._match(TokenType.WITH) and self._match(TokenType.ORDINALITY)
+        ordinality = self._match(
+            TokenType.WITH) and self._match(TokenType.ORDINALITY)
         self._match(TokenType.ALIAS)
         table = self._parse_id_var()
 
@@ -969,9 +982,11 @@ class Parser:
         negate = self._match(TokenType.NOT)
 
         if self._match(TokenType.LIKE):
-            this = self.expression(exp.Like, this=this, expression=self._parse_term())
+            this = self.expression(exp.Like, this=this,
+                                   expression=self._parse_term())
         elif self._match(TokenType.ILIKE):
-            this = self.expression(exp.ILike, this=this, expression=self._parse_term())
+            this = self.expression(exp.ILike, this=this,
+                                   expression=self._parse_term())
         elif self._match(TokenType.RLIKE):
             this = self.expression(
                 exp.RegexpLike, this=this, expression=self._parse_term()
@@ -984,7 +999,8 @@ class Parser:
                 this = self.expression(exp.In, this=this, query=query)
             else:
                 this = self.expression(
-                    exp.In, this=this, expressions=self._parse_csv(self._parse_term)
+                    exp.In, this=this, expressions=self._parse_csv(
+                        self._parse_term)
                 )
 
             self._match_r_paren()
@@ -1173,7 +1189,8 @@ class Parser:
             args = self._parse_csv(self._parse_lambda)
 
             if not callable(function):
-                this = self.expression(exp.Anonymous, this=this, expressions=args)
+                this = self.expression(
+                    exp.Anonymous, this=this, expressions=args)
             else:
                 this = function(args)
                 self.validate_expression(this)
@@ -1208,7 +1225,8 @@ class Parser:
         if not self._match(TokenType.L_PAREN):
             return this
 
-        args = self._parse_csv(lambda: self._parse_column_def(self._parse_field()))
+        args = self._parse_csv(
+            lambda: self._parse_column_def(self._parse_field()))
         self._match_r_paren()
         return self.expression(exp.Schema, this=this, expressions=args)
 
@@ -1246,15 +1264,18 @@ class Parser:
             )
             parse_option(
                 "default",
-                lambda: self._match(TokenType.DEFAULT) and self._parse_primary(),
+                lambda: self._match(
+                    TokenType.DEFAULT) and self._parse_primary(),
             )
             parse_option(
                 "not_null",
-                lambda: self._match(TokenType.NOT) and self._match(TokenType.NULL),
+                lambda: self._match(
+                    TokenType.NOT) and self._match(TokenType.NULL),
             )
             parse_option(
                 "comment",
-                lambda: self._match(TokenType.SCHEMA_COMMENT) and self._parse_string(),
+                lambda: self._match(
+                    TokenType.SCHEMA_COMMENT) and self._parse_string(),
             )
             parse_option(
                 "primary",
@@ -1271,8 +1292,10 @@ class Parser:
             if isinstance(this, exp.Identifier) and this.this.upper() == "ARRAY":
                 this = self.expression(exp.Array, expressions=expressions)
             else:
-                expressions = apply_index_offset(expressions, -self.index_offset)
-                this = self.expression(exp.Bracket, this=this, expressions=expressions)
+                expressions = apply_index_offset(
+                    expressions, -self.index_offset)
+                this = self.expression(
+                    exp.Bracket, this=this, expressions=expressions)
 
             if not self._match(TokenType.R_BRACKET):
                 self.raise_error("Expected ]")
@@ -1340,7 +1363,8 @@ class Parser:
         order = self._parse_order()
 
         spec = None
-        kind = self._match_set((TokenType.ROWS, TokenType.RANGE)) and self._prev.text
+        kind = self._match_set(
+            (TokenType.ROWS, TokenType.RANGE)) and self._prev.text
 
         if kind:
             self._match(TokenType.BETWEEN)
