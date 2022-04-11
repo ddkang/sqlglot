@@ -695,6 +695,10 @@ class Parser:
                     "order": self._parse_order(),
                     "limit": self._parse_limit(),
                     "offset": self._parse_offset(),
+                    "error_target": self._parse_error_target(),
+                    "recall_target": self._parse_recall_target(),
+                    "precision_target": self._parse_precision_target(),
+                    "confidence": self._parse_confidence(),
                 },
             )
 
@@ -941,6 +945,26 @@ class Parser:
         if not self._match(TokenType.OFFSET):
             return None
         return self.expression(exp.Offset, this=self._parse_number())
+
+    def _parse_error_target(self):
+        if not self._match(TokenType.ERROR_TARGET):
+            return None
+        return self.expression(exp.ErrorTarget, this=self._parse_number())
+
+    def _parse_recall_target(self):
+        if not self._match(TokenType.RECALL_TARGET):
+            return None
+        return self.expression(exp.RecallTarget, this=self._parse_number())
+
+    def _parse_precision_target(self):
+        if not self._match(TokenType.PRECISION_TARGET):
+            return None
+        return self.expression(exp.PrecisionTarget, this=self._parse_number())
+
+    def _parse_confidence(self):
+        if not self._match(TokenType.CONFIDENCE):
+            return None
+        return self.expression(exp.Confidence, this=self._parse_number())
 
     def _parse_set_operations(self, this):
         if not self._match_set(self.SET_OPERATIONS):

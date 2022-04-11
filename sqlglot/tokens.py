@@ -180,6 +180,12 @@ class TokenType(AutoName):
     WITHOUT = auto()
     ZONE = auto()
 
+    # AQP
+    ERROR_TARGET = auto()
+    RECALL_TARGET = auto()
+    PRECISION_TARGET = auto()
+    CONFIDENCE = auto()
+
 
 class Token:
     __slots__ = ("token_type", "text", "line", "col")
@@ -207,7 +213,8 @@ class Token:
         self.col = max(col - len(text), 1)
 
     def __repr__(self):
-        attributes = ", ".join(f"{k}: {getattr(self, k)}" for k in self.__slots__)
+        attributes = ", ".join(
+            f"{k}: {getattr(self, k)}" for k in self.__slots__)
         return f"<Token {attributes}>"
 
 
@@ -408,6 +415,11 @@ class Tokenizer:
         "TIMESTAMPTZ": TokenType.TIMESTAMPTZ,
         "DATE": TokenType.DATE,
         "UUID": TokenType.UUID,
+        # AQP
+        "ERROR_TARGET": TokenType.ERROR_TARGET,
+        "RECALL_TARGET": TokenType.RECALL_TARGET,
+        "PRECISION_TARGET": TokenType.PRECISION_TARGET,
+        "CONFIDENCE": TokenType.CONFIDENCE,
     }
 
     WHITE_SPACE = {
