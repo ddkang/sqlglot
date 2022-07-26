@@ -699,6 +699,7 @@ class Parser:
                     "recall_target": self._parse_recall_target(),
                     "precision_target": self._parse_precision_target(),
                     "confidence": self._parse_confidence(),
+                    "budget": self._parse_budget(),
                 },
             )
 
@@ -965,6 +966,11 @@ class Parser:
         if not self._match(TokenType.CONFIDENCE):
             return None
         return self.expression(exp.Confidence, this=self._parse_number())
+
+    def _parse_budget(self):
+        if not self._match(TokenType.BUDGET):
+            return None
+        return self.expression(exp.Budget, this=self._parse_number())
 
     def _parse_set_operations(self, this):
         if not self._match_set(self.SET_OPERATIONS):

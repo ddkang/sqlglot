@@ -495,6 +495,10 @@ class Confidence(Expression):
     pass
 
 
+class Budget(Expression):
+    pass
+
+
 class Select(Expression):
     arg_types = {
         "expressions": False,
@@ -513,6 +517,7 @@ class Select(Expression):
         "recall_target": False,
         "precision_target": False,
         "confidence": False,
+        "budget": False,
     }
 
 

@@ -185,6 +185,7 @@ class TokenType(AutoName):
     RECALL_TARGET = auto()
     PRECISION_TARGET = auto()
     CONFIDENCE = auto()
+    BUDGET = auto()
 
 
 class Token:
@@ -420,6 +421,7 @@ class Tokenizer:
         "RECALL_TARGET": TokenType.RECALL_TARGET,
         "PRECISION_TARGET": TokenType.PRECISION_TARGET,
         "CONFIDENCE": TokenType.CONFIDENCE,
+        "BUDGET": TokenType.BUDGET,
     }
 
     WHITE_SPACE = {
