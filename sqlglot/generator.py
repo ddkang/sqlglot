@@ -506,6 +506,11 @@ class Generator:
             self.sql(expression, "order"),
             self.sql(expression, "limit"),
             self.sql(expression, "offset"),
+            self.sql(expression, "error_target"),
+            self.sql(expression, "recall_target"),
+            self.sql(expression, "precision_target"),
+            self.sql(expression, "confidence"),
+            self.sql(expression, "budget"),
             sep="",
         )
 
@@ -746,6 +751,24 @@ class Generator:
         return (
             f"TRY_CAST({self.sql(expression, 'this')} AS {self.sql(expression, 'to')})"
         )
+
+    # AQP stuff
+    def errortarget_sql(self, expression):
+        return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}"
+
+    def recalltarget_sql(self, expression):
+        return f"{self.seg('RECALL_TARGET')} {self.sql(expression, 'this')}"
+
+    def precisiontarget_sql(self, expression):
+        return f"{self.seg('PRECISION_TARGET')} {self.sql(expression, 'this')}"
+
+    def confidence_sql(self, expression):
+        return f"{self.seg('CONFIDENCE')} {self.sql(expression, 'this')}"
+
+    def budget_sql(self, expression):
+        return f"{self.seg('BUDGET')} {self.sql(expression, 'this')}"
+
+
 
     def binary(self, expression, op, newline=False):
         sep = "\n" if newline else " "
