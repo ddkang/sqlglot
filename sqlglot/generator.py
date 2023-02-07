@@ -511,6 +511,8 @@ class Generator:
             self.sql(expression, "precision_target"),
             self.sql(expression, "confidence"),
             self.sql(expression, "budget"),
+            self.sql(expression, "using_proxy"),
+            self.sql(expression, "using_oracle"),
             sep="",
         )
 
@@ -768,6 +770,11 @@ class Generator:
     def budget_sql(self, expression):
         return f"{self.seg('BUDGET')} {self.sql(expression, 'this')}"
 
+    def usingproxy_sql(self, expression):
+        return f"{self.seg('USING_PROXY')} {self.sql(expression, 'this')}"
+
+    def usingoracle_sql(self, expression):
+        return f"{self.seg('USING_ORACLE')} {self.sql(expression, 'this')}"
 
 
     def binary(self, expression, op, newline=False):

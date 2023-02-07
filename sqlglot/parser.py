@@ -700,6 +700,8 @@ class Parser:
                     "precision_target": self._parse_precision_target(),
                     "confidence": self._parse_confidence(),
                     "budget": self._parse_budget(),
+                    "using_proxy": self._parse_using_proxy(),
+                    "using_oracle": self._parse_using_oracle(),
                 },
             )
 
@@ -971,6 +973,16 @@ class Parser:
         if not self._match(TokenType.BUDGET):
             return None
         return self.expression(exp.Budget, this=self._parse_number())
+
+    def _parse_using_proxy(self):
+        if not self._match(TokenType.USING_PROXY):
+            return None
+        return self.expression(exp.UsingProxy, this=self._parse_string())
+
+    def _parse_using_oracle(self):
+        if not self._match(TokenType.USING_ORACLE):
+            return None
+        return self.expression(exp.UsingOracle, this=self._parse_string())
 
     def _parse_set_operations(self, this):
         if not self._match_set(self.SET_OPERATIONS):

@@ -499,6 +499,14 @@ class Budget(Expression):
     pass
 
 
+class UsingProxy(Expression):
+    pass
+
+
+class UsingOracle(Expression):
+    pass
+
+
 class Select(Expression):
     arg_types = {
         "expressions": False,
@@ -518,6 +526,8 @@ class Select(Expression):
         "precision_target": False,
         "confidence": False,
         "budget": False,
+        "using_proxy": False,
+        "using_oracle": False,
     }
 
 
