@@ -187,7 +187,6 @@ class TokenType(AutoName):
     CONFIDENCE = auto()
     BUDGET = auto()
     USING_PROXY = auto()
-    USING_ORACLE = auto()
 
 
 class Token:
@@ -425,7 +424,6 @@ class Tokenizer:
         "CONFIDENCE": TokenType.CONFIDENCE,
         "BUDGET": TokenType.BUDGET,
         "USING_PROXY": TokenType.USING_PROXY,
-        "USING_ORACLE": TokenType.USING_ORACLE,
     }
 
     WHITE_SPACE = {
