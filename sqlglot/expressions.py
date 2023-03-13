@@ -223,9 +223,8 @@ class Expression:
                 if isinstance(cn, Expression):
                     new_child_node = cn.transform(
                         fun, *args, copy=False, **kwargs)
-                    if new_child_node is None:
-                        continue
-                    new_child_node.parent = new_node
+                    if new_child_node is not None:
+                        new_child_node.parent = new_node
                 else:
                     new_child_node = cn
                 new_child_nodes.append(new_child_node)
