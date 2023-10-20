@@ -516,7 +516,7 @@ class Select(Expression):
         "order": False,
         "limit": False,
         "offset": False,
-        "error_target": False,
+        "error_target_percent": False,
         "recall_target": False,
         "precision_target": False,
         "confidence": False,

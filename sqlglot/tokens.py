@@ -181,7 +181,7 @@ class TokenType(AutoName):
     ZONE = auto()
 
     # AQP
-    ERROR_TARGET = auto()
+    ERROR_TARGET_PERCENT = auto()
     RECALL_TARGET = auto()
     PRECISION_TARGET = auto()
     CONFIDENCE = auto()
@@ -418,7 +418,7 @@ class Tokenizer:
         "DATE": TokenType.DATE,
         "UUID": TokenType.UUID,
         # AQP
-        "ERROR_TARGET": TokenType.ERROR_TARGET,
+        "ERROR_TARGET_PERCENT": TokenType.ERROR_TARGET_PERCENT,
         "RECALL_TARGET": TokenType.RECALL_TARGET,
         "PRECISION_TARGET": TokenType.PRECISION_TARGET,
         "CONFIDENCE": TokenType.CONFIDENCE,

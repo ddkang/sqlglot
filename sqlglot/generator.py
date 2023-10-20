@@ -506,7 +506,7 @@ class Generator:
             self.sql(expression, "order"),
             self.sql(expression, "limit"),
             self.sql(expression, "offset"),
-            self.sql(expression, "error_target"),
+            self.sql(expression, "error_target_percent"),
             self.sql(expression, "recall_target"),
             self.sql(expression, "precision_target"),
             self.sql(expression, "confidence"),
@@ -755,7 +755,7 @@ class Generator:
 
     # AQP stuff
     def errortarget_sql(self, expression):
-        return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}"
+        return f"{self.seg('ERROR_TARGET_PERCENT')} {self.sql(expression, 'this')}"
 
     def recalltarget_sql(self, expression):
         return f"{self.seg('RECALL_TARGET')} {self.sql(expression, 'this')}"

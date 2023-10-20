@@ -695,7 +695,7 @@ class Parser:
                     "order": self._parse_order(),
                     "limit": self._parse_limit(),
                     "offset": self._parse_offset(),
-                    "error_target": self._parse_error_target(),
+                    "error_target_percent": self._parse_error_target_percent(),
                     "recall_target": self._parse_recall_target(),
                     "precision_target": self._parse_precision_target(),
                     "confidence": self._parse_confidence(),
@@ -948,8 +948,8 @@ class Parser:
             return None
         return self.expression(exp.Offset, this=self._parse_number())
 
-    def _parse_error_target(self):
-        if not self._match(TokenType.ERROR_TARGET):
+    def _parse_error_target_percent(self):
+        if not self._match(TokenType.ERROR_TARGET_PERCENT):
             return None
         return self.expression(exp.ErrorTarget, this=self._parse_number())
 
