@@ -87,6 +87,14 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(ParseError):
             parse_one("SELECT FROM x GROUP BY")
 
+    def test_error_target_positive(self):
+        expression = parse_one("Select a from b ERROR_TARGET 5.8%")
+        assert expression.args["error_target"].args["this"].args["this"] == '5.8'
+
+    def test_error_target_negative(self):
+        with self.assertRaises(ParseError):
+            parse_one("Select a from b ERROR_TARGET 5.8")
+
     def test_annotations(self):
         expression = parse_one(
             """
