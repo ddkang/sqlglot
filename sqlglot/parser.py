@@ -951,7 +951,7 @@ class Parser:
     def _parse_error_target(self):
         if not self._match(TokenType.ERROR_TARGET):
             return None
-        return self.expression(exp.ErrorTarget, this=self._parse_number())
+        return self.expression(exp.ErrorTarget, this=self._parse_percentage())
 
     def _parse_recall_target(self):
         if not self._match(TokenType.RECALL_TARGET):
@@ -1468,6 +1468,15 @@ class Parser:
     def _parse_number(self):
         if self._match(TokenType.NUMBER):
             return exp.Literal.number(self._prev.text)
+        return None
+
+    def _parse_percentage(self):
+        if self._match(TokenType.NUMBER):
+            number = exp.Literal.number(self._prev.text)
+            if self._match(TokenType.MOD):
+                return number
+            else:
+                self.raise_error("Expecting %")
         return None
 
     def _parse_identifier(self):
