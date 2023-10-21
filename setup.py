@@ -11,14 +11,14 @@ version = (
 )
 
 setup(
-    name="sqlglot",
-    version=version,
+    name="sqlglot-aidb",
+    version="0.0.1",
     description="An easily customizable SQL parser and transpiler",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/tobymao/sqlglot",
-    author="Toby Mao",
-    author_email="toby.mao@gmail.com",
+    url="https://github.com/ddkang/sqlglot",
+    author="Daniel Kang",
+    author_email="daniel.d.kang@gmail.com",
     license="MIT",
     packages=["sqlglot"],
     classifiers=[
