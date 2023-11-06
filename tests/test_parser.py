@@ -95,6 +95,14 @@ class TestParser(unittest.TestCase):
         with self.assertRaises(ParseError):
             parse_one("Select a from b ERROR_TARGET 5.8")
 
+    def test_confidence_positive(self):
+        expression = parse_one("Select a from b ERROR_TARGET 5.8% CONFIDENCE 95%")
+        assert expression.args["confidence"].args["this"].args["this"] == '95'
+
+    def test_confidence_negative(self):
+        with self.assertRaises(ParseError):
+            parse_one("Select a from b ERROR_TARGET 5.8% CONFIDENCE 95")
+
     def test_annotations(self):
         expression = parse_one(
             """
