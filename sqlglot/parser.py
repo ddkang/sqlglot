@@ -966,7 +966,7 @@ class Parser:
     def _parse_confidence(self):
         if not self._match(TokenType.CONFIDENCE):
             return None
-        return self.expression(exp.Confidence, this=self._parse_number())
+        return self.expression(exp.Confidence, this=self._parse_percentage())
 
     def _parse_budget(self):
         if not self._match(TokenType.BUDGET):
