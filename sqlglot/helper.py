@@ -16,16 +16,16 @@ class RegisteringMeta(type):
     classes = {}
 
     @classmethod
-    def __getitem__(cls, key):
-        return cls.classes[key]
+    def __getitem__(mcs, key):
+        return mcs.classes[key]
 
     @classmethod
-    def get(cls, key, default):
-        return cls.classes.get(key, default)
+    def get(mcs, key, default):
+        return mcs.classes.get(key, default)
 
-    def __new__(cls, clsname, bases, attrs):
-        clazz = super().__new__(cls, clsname, bases, attrs)
-        cls.classes[clsname.lower()] = clazz
+    def __new__(mcs, clsname, bases, attrs):
+        clazz = super().__new__(mcs, clsname, bases, attrs)
+        mcs.classes[clsname.lower()] = clazz
         return clazz
 
 
