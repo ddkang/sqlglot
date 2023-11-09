@@ -1475,8 +1475,7 @@ class Parser:
             number = exp.Literal.number(self._prev.text)
             if self._match(TokenType.MOD):
                 return number
-            else:
-                self.raise_error("Expecting %")
+            self.raise_error("Expecting %")
         return None
 
     def _parse_identifier(self):
