@@ -1158,11 +1158,8 @@ def _norm_arg(arg):
 
 
 def _all_functions():
-    predicate = (
-        lambda obj: inspect.isclass(obj)
-        and issubclass(obj, Func)
-        and obj not in (AggFunc, Anonymous, Func)
-    )
+    def predicate(obj):
+        return inspect.isclass(obj) and issubclass(obj, Func) and obj not in (AggFunc, Anonymous, Func)
     return [obj for _, obj in inspect.getmembers(sys.modules[__name__], predicate)]
 
 
