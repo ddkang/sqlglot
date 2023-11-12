@@ -1191,10 +1191,11 @@ class Parser:
         if self._match(TokenType.L_PAREN):
             expressions = self._parse_expressions()
 
-            if len(expressions) > 1:
-                this = self.expression(exp.Tuple, expressions=expressions)
-            else:
-                this = self.expression(exp.Paren, this=expressions[0])
+            if expressions:
+                if len(expressions) > 1:
+                    this = self.expression(exp.Tuple, expressions=expressions)
+                else:
+                    this = self.expression(exp.Paren, this=expressions[0])
 
             self._match_r_paren()
 
