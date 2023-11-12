@@ -1188,18 +1188,22 @@ class Parser:
 
         if this:
             return this
+
         if self._match(TokenType.L_PAREN):
-            expressions = self._parse_expressions()
-
-            if expressions:
-                if len(expressions) > 1:
-                    this = self.expression(exp.Tuple, expressions=expressions)
-                else:
-                    this = self.expression(exp.Paren, this=expressions[0])
-
+            expressions = self._parse_expressions() or self._parse_conjunction() or self._parse_select()
+            if isinstance(expressions, list):
+                if expressions:
+                    if len(expressions) > 1:
+                        this = self.expression(exp.Tuple, expressions=expressions)
+                    else:
+                        this = self.expression(exp.Paren, this=expressions[0])
+            else:
+                this = self.expression(exp.Paren, this=expressions)
             self._match_r_paren()
 
-        return this
+            return this
+
+        return None
 
     def _parse_field(self):
         return self._parse_bracket(
