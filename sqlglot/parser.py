@@ -240,7 +240,6 @@ class Parser:
                     self._chunks.append([])
             else:
                 self._chunks[-1].append(token)
-
         expressions = []
 
         for tokens in self._chunks:
@@ -671,11 +670,15 @@ class Parser:
 
     def _parse_select(self):
         this = self._parse_values()
+        store_index = self._index
 
         if self._match(TokenType.L_PAREN):
             this = self._parse_select()
-            self._match_r_paren()
-            this = self._parse_alias(this)
+            if this:
+                self._match_r_paren()
+                this = self._parse_alias(this)
+            else:
+                self._retreat(store_index)
 
         if isinstance(this, exp.Alias) or self._match(TokenType.SELECT):
             this = self.expression(
@@ -1171,6 +1174,9 @@ class Parser:
             return self.expression(exp.Column, this=this, table=table, db=db)
         return this
 
+    def _parse_expressions(self):
+        return self._parse_csv(self._parse_expression)
+
     def _parse_primary(self):
         this = (
             self._parse_string()
@@ -1184,9 +1190,18 @@ class Parser:
             return this
 
         if self._match(TokenType.L_PAREN):
-            this = self._parse_conjunction() or self._parse_select()
+            expressions = self._parse_expressions() or self._parse_conjunction() or self._parse_select()
+            if isinstance(expressions, list):
+                if expressions:
+                    if len(expressions) > 1:
+                        this = self.expression(exp.Tuple, expressions=expressions)
+                    else:
+                        this = self.expression(exp.Paren, this=expressions[0])
+            else:
+                this = self.expression(exp.Paren, this=expressions)
             self._match_r_paren()
-            return self.expression(exp.Paren, this=this)
+
+            return this
 
         return None
 

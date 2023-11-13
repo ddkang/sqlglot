@@ -121,3 +121,32 @@ class TestParser(unittest.TestCase):
         assert expression.args["expressions"][3].text("this") == "c#annotation3"
         assert expression.args["expressions"][4].text("this") == "annotation4"
         assert expression.args["expressions"][5].text("this") == ""
+
+    def test_query_in(self):
+        self.assertEqual(
+            parse_one(
+                "SELECT b FROM test WHERE z IN (1, 2)", ""
+            ).sql(),
+            "SELECT b FROM test WHERE z IN (1, 2)",
+        )
+
+        self.assertEqual(
+            parse_one(
+                "SELECT (a) FROM test WHERE (x, y) IN ((1, 2), (3, 4))", ""
+            ).sql(),
+            "SELECT (a) FROM test WHERE (x, y) IN ((1, 2), (3, 4))",
+        )
+
+        self.assertEqual(
+            parse_one(
+                "SELECT (a) FROM test WHERE x IN (1)", ""
+            ).sql(),
+            "SELECT (a) FROM test WHERE x IN (1)",
+        )
+
+        self.assertEqual(
+            parse_one(
+                "SELECT a AS aaa FROM test WHERE (x, y) IN (SELECT b AS bb, c FROM test2)", ""
+            ).sql(),
+            "SELECT a AS aaa FROM test WHERE (x, y) IN (SELECT b AS bb, c FROM test2)",
+        )
