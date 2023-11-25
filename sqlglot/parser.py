@@ -959,12 +959,12 @@ class Parser:
     def _parse_recall_target(self):
         if not self._match(TokenType.RECALL_TARGET):
             return None
-        return self.expression(exp.RecallTarget, this=self._parse_number())
+        return self.expression(exp.RecallTarget, this=self._parse_percentage())
 
     def _parse_precision_target(self):
         if not self._match(TokenType.PRECISION_TARGET):
             return None
-        return self.expression(exp.PrecisionTarget, this=self._parse_number())
+        return self.expression(exp.PrecisionTarget, this=self._parse_percentage())
 
     def _parse_confidence(self):
         if not self._match(TokenType.CONFIDENCE):

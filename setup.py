@@ -12,7 +12,7 @@ version = (
 
 setup(
     name="sqlglot-aidb",
-    version="0.0.6",
+    version="0.0.7",
     description="An easily customizable SQL parser and transpiler",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
