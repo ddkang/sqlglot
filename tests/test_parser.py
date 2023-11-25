@@ -105,7 +105,7 @@ class TestParser(unittest.TestCase):
 
     def test_recall_target_positive(self):
         expression = parse_one("Select a from b RECALL_TARGET 5.8%")
-        assert expression.args["error_target"].args["this"].args["this"] == '5.8'
+        assert expression.args["recall_target"].args["this"].args["this"] == '5.8'
 
     def test_recall_target_negative(self):
         with self.assertRaises(ParseError):
@@ -113,7 +113,7 @@ class TestParser(unittest.TestCase):
 
     def test_precision_target_positive(self):
         expression = parse_one("Select a from b PRECISION_TARGET 5.8%")
-        assert expression.args["error_target"].args["this"].args["this"] == '5.8'
+        assert expression.args["precision_target"].args["this"].args["this"] == '5.8'
 
     def test_precision_target_negative(self):
         with self.assertRaises(ParseError):
