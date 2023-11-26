@@ -1240,11 +1240,7 @@ class Parser:
             args = self._parse_csv(self._parse_lambda)
 
             if not callable(function) or getattr(function, '__self__', None) == exp.UserFunction:
-                # User defined function should include input columns
-                if not args:
-                    this = self.expression(exp.Anonymous, this=this, expressions=args)
-                else:
-                    this = self.expression(exp.UserFunction, this=this, expressions=args)
+                this = self.expression(exp.UserFunction, this=this, expressions=args)
             else:
                 this = function(args)
                 self.validate_expression(this)

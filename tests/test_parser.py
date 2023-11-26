@@ -185,3 +185,9 @@ class TestParser(unittest.TestCase):
           ).sql(),
           '''SELECT a, objects00(frame) AS (result1, result2) FROM test WHERE result1 > 1000''',
         )
+
+        self.assertEqual(
+          parse_one('''SELECT a, objects00() FROM test''', ""
+          ).sql(),
+          '''SELECT a, objects00() FROM test''',
+        )

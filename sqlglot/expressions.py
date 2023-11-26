@@ -1145,7 +1145,7 @@ class Year(Func):
 
 
 class UserFunction(Func):
-    arg_types = {"this": True, "expressions": True}
+    arg_types = {"this": True, "expressions": False}
     is_var_len_args = True
 
 
