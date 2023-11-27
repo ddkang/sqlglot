@@ -208,3 +208,4 @@ class TestParser(unittest.TestCase):
           "SELECT * FROM test JOIN test2 ON objects00(test.frame, test.id) = colors02(test2.id, test2.name) "
             "WHERE test.frame > 10000",
         )
+        
