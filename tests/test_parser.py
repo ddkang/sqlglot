@@ -191,3 +191,20 @@ class TestParser(unittest.TestCase):
           ).sql(),
           '''SELECT a, objects00() FROM test''',
         )
+
+        self.assertEqual(
+          parse_one(
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame) = colors02(test2.id)", ""
+          ).sql(),
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame) = colors02(test2.id)",
+        )
+
+
+        self.assertEqual(
+          parse_one(
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame, test.id) = colors02(test2.id, test2.name) "
+            "WHERE test.frame > 10000", ""
+          ).sql(),
+          "SELECT * FROM test JOIN test2 ON objects00(test.frame, test.id) = colors02(test2.id, test2.name) "
+            "WHERE test.frame > 10000",
+        )
