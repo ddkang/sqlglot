@@ -1144,6 +1144,11 @@ class Year(Func):
     pass
 
 
+class UserFunction(Func):
+    arg_types = {"this": True, "expressions": False}
+    is_var_len_args = True
+
+
 def _norm_args(expression):
     return {
         k: _norm_arg(arg) if not isinstance(

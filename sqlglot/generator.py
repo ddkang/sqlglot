@@ -633,6 +633,9 @@ class Generator:
     def anonymous_sql(self, expression):
         return f"{self.sql(expression, 'this').upper()}({self.expressions(expression, flat=True)})"
 
+    def userfunction_sql(self, expression):
+        return f"{self.sql(expression, 'this')}({self.expressions(expression, flat=True)})"
+
     def paren_sql(self, expression):
         return self.no_format(lambda: f"({self.sql(expression, 'this')})")
 

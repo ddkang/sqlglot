@@ -1239,9 +1239,8 @@ class Parser:
             function = self.functions.get(this.upper())
             args = self._parse_csv(self._parse_lambda)
 
-            if not callable(function):
-                this = self.expression(
-                    exp.Anonymous, this=this, expressions=args)
+            if not callable(function) or getattr(function, '__self__', None) == exp.UserFunction:
+                this = self.expression(exp.UserFunction, this=this, expressions=args)
             else:
                 this = function(args)
                 self.validate_expression(this)

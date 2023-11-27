@@ -166,3 +166,46 @@ class TestParser(unittest.TestCase):
             ).sql(),
             "SELECT a AS aaa FROM test WHERE (x, y) IN (SELECT b AS bb, c FROM test2)",
         )
+
+
+    def test_user_function(self):
+        self.assertEqual(
+            parse_one(
+                "SELECT a, colors02(col1, col2, col3) FROM test WHERE a > 2 "
+                    "AND colors02(col1, col2, col3) > (SELECT 1 FROM x GROUP BY y)", ""
+            ).sql(),
+            "SELECT a, colors02(col1, col2, col3) FROM test WHERE a > 2 "
+                "AND colors02(col1, col2, col3) > (SELECT 1 FROM x GROUP BY y)",
+        )
+
+
+        self.assertEqual(
+          parse_one(
+            '''SELECT a, objects00(frame) AS (result1, result2) FROM test WHERE result1 > 1000''', ""
+          ).sql(),
+          '''SELECT a, objects00(frame) AS (result1, result2) FROM test WHERE result1 > 1000''',
+        )
+
+        self.assertEqual(
+          parse_one('''SELECT a, objects00() FROM test''', ""
+          ).sql(),
+          '''SELECT a, objects00() FROM test''',
+        )
+
+        self.assertEqual(
+          parse_one(
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame) = colors02(test2.id)", ""
+          ).sql(),
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame) = colors02(test2.id)",
+        )
+
+
+        self.assertEqual(
+          parse_one(
+            "SELECT * FROM test JOIN test2 ON objects00(test.frame, test.id) = colors02(test2.id, test2.name) "
+            "WHERE test.frame > 10000", ""
+          ).sql(),
+          "SELECT * FROM test JOIN test2 ON objects00(test.frame, test.id) = colors02(test2.id, test2.name) "
+            "WHERE test.frame > 10000",
+        )
+        
