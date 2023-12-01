@@ -47,3 +47,29 @@ class Rewriter:
         for sql in selects:
             select.args["expressions"].append(parse_one(sql, read=read))
         return self.expression
+
+
+    @chainable
+    def add_where(self, operator, where_condition, read=None):
+        where = self.expression.find(exp.Where)
+        new_condition = parse_one(where_condition, read=read)
+        if where:
+            if operator.upper() == 'AND':
+                where.args['this'] = exp.And(this=new_condition, expression=where.args['this'])
+            elif operator.upper() == 'OR':
+                where.args['this'] = exp.Or(this=new_condition, expression=where.args['this'])
+
+        else:
+            where_expr = exp.Where(this=new_condition)
+            self.expression.args['where'] = where_expr
+        return self.expression
+
+
+    @chainable
+    def add_join(self, new_join, read=None):
+        # parse_one can't parse JOIN directly
+        join_sql = 'select fake from fake ' + new_join
+        new_join_expression = parse_one(join_sql, read=read).args['joins']
+        self.expression.args['joins'] += new_join_expression
+
+        return self.expression
