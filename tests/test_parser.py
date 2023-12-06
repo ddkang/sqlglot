@@ -94,6 +94,10 @@ class TestParser(unittest.TestCase):
             expression.sql(),
             "SELECT a FROM b ERROR_TARGET 5.8%",
         )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_error_target_negative(self):
         with self.assertRaises(ParseError):
@@ -105,6 +109,10 @@ class TestParser(unittest.TestCase):
         self.assertEqual(
             expression.sql(),
             "SELECT a FROM b ERROR_TARGET 5.8% CONFIDENCE 95%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
         )
 
     def test_confidence_negative(self):
@@ -118,6 +126,10 @@ class TestParser(unittest.TestCase):
             expression.sql(),
             "SELECT a FROM b RECALL_TARGET 5.8%",
         )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_recall_target_negative(self):
         with self.assertRaises(ParseError):
@@ -129,6 +141,10 @@ class TestParser(unittest.TestCase):
         self.assertEqual(
             expression.sql(),
             "SELECT a FROM b PRECISION_TARGET 5.8%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
         )
 
     def test_precision_target_negative(self):
