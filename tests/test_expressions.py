@@ -261,3 +261,14 @@ class TestExpressions(unittest.TestCase):
             expression.sql(),
             "SELECT new_x, new_y FROM table1"
         )
+
+        sql_str3 = '''SELECT x, y FROM table1'''
+        expression = parse_one(sql_str3)
+        new_select = []
+        new_select.append(exp.Column(this=exp.Identifier(this='replaced_col1', quoted=False)))
+        new_select.append(exp.Column(this=exp.Identifier(this='replaced_col2', quoted=False)))
+        expression.set('expressions', new_select)
+        self.assertEqual(
+            expression.sql(),
+            "SELECT replaced_col1, replaced_col2 FROM table1"
+        )

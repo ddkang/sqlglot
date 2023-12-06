@@ -130,7 +130,7 @@ class Expression:
         if hasattr(value, "parent"):
             value.parent = self
             value.arg_key = arg_key
-        elif type(value) is list:
+        elif isinstance(value, list):
             for v in value:
                 if hasattr(v, "parent"):
                     v.parent = self
