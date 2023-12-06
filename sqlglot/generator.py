@@ -758,16 +758,16 @@ class Generator:
 
     # AQP stuff
     def errortarget_sql(self, expression):
-        return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}"
+        return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}{'%'}"
 
     def recalltarget_sql(self, expression):
-        return f"{self.seg('RECALL_TARGET')} {self.sql(expression, 'this')}"
+        return f"{self.seg('RECALL_TARGET')} {self.sql(expression, 'this')}{'%'}"
 
     def precisiontarget_sql(self, expression):
-        return f"{self.seg('PRECISION_TARGET')} {self.sql(expression, 'this')}"
+        return f"{self.seg('PRECISION_TARGET')} {self.sql(expression, 'this')}{'%'}"
 
     def confidence_sql(self, expression):
-        return f"{self.seg('CONFIDENCE')} {self.sql(expression, 'this')}"
+        return f"{self.seg('CONFIDENCE')} {self.sql(expression, 'this')}{'%'}"
 
     def budget_sql(self, expression):
         return f"{self.seg('BUDGET')} {self.sql(expression, 'this')}"
