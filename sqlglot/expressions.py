@@ -111,6 +111,31 @@ class Expression:
         else:
             yield from self.dfs(self.parent, None)
 
+    def set(self, arg_key: str, value) -> None:
+        """
+        Sets arg_key to value.
+
+        Args:
+            arg_key: name of the expression arg.
+            value: value to set the arg to.
+        """
+        if value is None:
+            self.args.pop(arg_key, None)
+            return
+
+        self.args[arg_key] = value
+        self._set_parent(arg_key, value)
+
+    def _set_parent(self, arg_key: str, value) -> None:
+        if hasattr(value, "parent"):
+            value.parent = self
+            value.arg_key = arg_key
+        elif isinstance(value, list):
+            for v in value:
+                if hasattr(v, "parent"):
+                    v.parent = self
+                    v.arg_key = arg_key
+
     def dfs(self, parent, key):
         """
         Returns a generator object which visits all nodes in this tree in

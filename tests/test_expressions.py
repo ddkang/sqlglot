@@ -235,3 +235,40 @@ class TestExpressions(unittest.TestCase):
         self.assertEqual(parse_one("select *").text("this"), "")
         self.assertEqual(parse_one("1 + 1").text("this"), "1")
         self.assertEqual(parse_one("'a'").text("this"), "a")
+
+    def test_set(self):
+        sql_str1 = '''SELECT x, y FROM table1'''
+        expression = parse_one(sql_str1)
+        for node, _, _ in expression.walk():
+            if isinstance(node, exp.Column):
+                node.set('table', 'table1')
+            if isinstance(node, exp.Expression) and not isinstance(node, exp.Select):
+                assert node.parent is not None
+        self.assertEqual(
+            expression.sql(),
+            "SELECT table1.x, table1.y FROM table1"
+        )
+
+        sql_str2 = '''SELECT x, y FROM table1'''
+        expression = parse_one(sql_str2)
+        for node, _, _ in expression.walk():
+            if isinstance(node, exp.Column):
+                node.args['this'].set('this', f"new_{node.args['this'].args['this']}")
+            if isinstance(node, exp.Expression) and not isinstance(node, exp.Select):
+                assert node.parent is not None
+
+        self.assertEqual(
+            expression.sql(),
+            "SELECT new_x, new_y FROM table1"
+        )
+
+        sql_str3 = '''SELECT x, y FROM table1'''
+        expression = parse_one(sql_str3)
+        new_select = []
+        new_select.append(exp.Column(this=exp.Identifier(this='replaced_col1', quoted=False)))
+        new_select.append(exp.Column(this=exp.Identifier(this='replaced_col2', quoted=False)))
+        expression.set('expressions', new_select)
+        self.assertEqual(
+            expression.sql(),
+            "SELECT replaced_col1, replaced_col2 FROM table1"
+        )
