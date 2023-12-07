@@ -88,36 +88,68 @@ class TestParser(unittest.TestCase):
             parse_one("SELECT FROM x GROUP BY")
 
     def test_error_target_positive(self):
-        expression = parse_one("Select a from b ERROR_TARGET 5.8%")
+        expression = parse_one("SELECT a FROM b ERROR_TARGET 5.8%")
         assert expression.args["error_target"].args["this"].args["this"] == '5.8'
+        self.assertEqual(
+            expression.sql(),
+            "SELECT a FROM b ERROR_TARGET 5.8%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_error_target_negative(self):
         with self.assertRaises(ParseError):
-            parse_one("Select a from b ERROR_TARGET 5.8")
+            parse_one("SELECT a FROM b ERROR_TARGET 5.8")
 
     def test_confidence_positive(self):
-        expression = parse_one("Select a from b ERROR_TARGET 5.8% CONFIDENCE 95%")
+        expression = parse_one("SELECT a FROM b ERROR_TARGET 5.8% CONFIDENCE 95%")
         assert expression.args["confidence"].args["this"].args["this"] == '95'
+        self.assertEqual(
+            expression.sql(),
+            "SELECT a FROM b ERROR_TARGET 5.8% CONFIDENCE 95%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_confidence_negative(self):
         with self.assertRaises(ParseError):
-            parse_one("Select a from b ERROR_TARGET 5.8% CONFIDENCE 95")
+            parse_one("SELECT a FROM b ERROR_TARGET 5.8% CONFIDENCE 95")
 
     def test_recall_target_positive(self):
-        expression = parse_one("Select a from b RECALL_TARGET 5.8%")
+        expression = parse_one("SELECT a FROM b RECALL_TARGET 5.8%")
         assert expression.args["recall_target"].args["this"].args["this"] == '5.8'
+        self.assertEqual(
+            expression.sql(),
+            "SELECT a FROM b RECALL_TARGET 5.8%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_recall_target_negative(self):
         with self.assertRaises(ParseError):
-            parse_one("Select a from b RECALL_TARGET 5.8")
+            parse_one("SELECT a FROM b RECALL_TARGET 5.8")
 
     def test_precision_target_positive(self):
-        expression = parse_one("Select a from b PRECISION_TARGET 5.8%")
+        expression = parse_one("SELECT a FROM b PRECISION_TARGET 5.8%")
         assert expression.args["precision_target"].args["this"].args["this"] == '5.8'
+        self.assertEqual(
+            expression.sql(),
+            "SELECT a FROM b PRECISION_TARGET 5.8%",
+        )
+        self.assertEqual(
+            expression,
+            parse_one(expression.sql())
+        )
 
     def test_precision_target_negative(self):
         with self.assertRaises(ParseError):
-            parse_one("Select a from b PRECISION_TARGET 5.8")
+            parse_one("SELECT a FROM b PRECISION_TARGET 5.8")
 
     def test_annotations(self):
         expression = parse_one(
