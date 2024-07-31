@@ -390,6 +390,13 @@ class TokenType(AutoName):
     VERSION_SNAPSHOT = auto()
     TIMESTAMP_SNAPSHOT = auto()
     OPTION = auto()
+    RECALL_TARGET = auto()
+    PRECISION_TARGET = auto()
+    ERROR_TARGET = auto()
+    CONFIDENCE = auto()
+    BUDGET = auto()
+    USING_PROXY = auto()
+    
 
 
 _ALL_TOKEN_TYPES = list(TokenType)
@@ -899,6 +906,12 @@ class Tokenizer(metaclass=_Tokenizer):
         "USER-DEFINED": TokenType.USERDEFINED,
         "FOR VERSION": TokenType.VERSION_SNAPSHOT,
         "FOR TIMESTAMP": TokenType.TIMESTAMP_SNAPSHOT,
+        "RECALL_TARGET": TokenType.RECALL_TARGET,
+        "PRECISION_TARGET": TokenType.PRECISION_TARGET,
+        "ERROR_TARGET": TokenType.ERROR_TARGET,
+        "CONFIDENCE": TokenType.CONFIDENCE,
+        "BUDGET": TokenType.BUDGET,
+        "USING_PROXY": TokenType.USING_PROXY,
     }
 
     WHITE_SPACE: t.Dict[t.Optional[str], TokenType] = {

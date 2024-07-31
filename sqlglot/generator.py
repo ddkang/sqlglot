@@ -2287,6 +2287,12 @@ class Generator(metaclass=_Generator):
             *self.offset_limit_modifiers(expression, isinstance(limit, exp.Fetch), limit),
             *self.after_limit_modifiers(expression),
             self.options_modifier(expression),
+            self.sql(expression, "error_target"),
+            self.sql(expression, "recall_target"),
+            self.sql(expression, "precision_target"),
+            self.sql(expression, "confidence"),
+            self.sql(expression, "budget"),
+            self.sql(expression, "using_proxy"),
             sep="",
         )
 
@@ -4041,3 +4047,22 @@ class Generator(metaclass=_Generator):
     def summarize_sql(self, expression: exp.Summarize) -> str:
         table = " TABLE" if expression.args.get("table") else ""
         return f"SUMMARIZE{table} {self.sql(expression.this)}"
+    
+    # AQP stuff
+    def errortarget_sql(self, expression: exp.ErrorTarget) -> str:
+        return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}{'%'}"
+
+    def recalltarget_sql(self, expression: exp.RecallTarget) -> str:
+        return f"{self.seg('RECALL_TARGET')} {self.sql(expression, 'this')}{'%'}"
+
+    def precisiontarget_sql(self, expression: exp.PrecisionTarget) -> str:
+        return f"{self.seg('PRECISION_TARGET')} {self.sql(expression, 'this')}{'%'}"
+
+    def confidence_sql(self, expression: exp.Confidence) -> str:
+        return f"{self.seg('CONFIDENCE')} {self.sql(expression, 'this')}{'%'}"
+
+    def budget_sql(self, expression: exp.Budget) -> str:
+        return f"{self.seg('BUDGET')} {self.sql(expression, 'this')}"
+
+    def usingproxy_sql(self, expression: exp.UsingProxy) -> str:
+        return f"{self.seg('USING_PROXY')} {self.sql(expression, 'this')}"
