@@ -7039,7 +7039,6 @@ class Parser(metaclass=_Parser):
         return None
     
     def _parse_recall_target(self) -> t.Optional[exp.Expression]:
-        print(111)
         if not self._match(TokenType.RECALL_TARGET):
             return None
         return self.expression(exp.RecallTarget, this=self._parse_percentage())
@@ -7050,7 +7049,6 @@ class Parser(metaclass=_Parser):
         return self.expression(exp.PrecisionTarget, this=self._parse_percentage())
 
     def _parse_error_target(self):
-        print(111)
         if not self._match(TokenType.ERROR_TARGET):
             return None
         return self.expression(exp.ErrorTarget, this=self._parse_percentage())
