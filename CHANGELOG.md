@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## [v0.1.3] - 2024-08-01
+### :sparkles: New Features
+- [`6c65b2f`](https://github.com/ddkang/sqlglot/commit/6c65b2f175347c79620cf1e9e9ea10e292ee00e7) - **parser**: support AIDB queries *(commit by [@ttt-77](https://github.com/ttt-77))*
+
+
 ## [v25.8.1] - 2024-07-30
 ### :bug: Bug Fixes
 - [`a295b3a`](https://github.com/tobymao/sqlglot/commit/a295b3adbef0eff0b3f6c3b8b97b1eaa8c13f144) - **tsql**: regression related to CTEs in CREATE VIEW AS statements *(PR [#3852](https://github.com/tobymao/sqlglot/pull/3852) by [@georgesittas](https://github.com/georgesittas))*
@@ -4244,3 +4249,4 @@ Changelog
 [v25.7.1]: https://github.com/tobymao/sqlglot/compare/v25.7.0...v25.7.1
 [v25.8.0]: https://github.com/tobymao/sqlglot/compare/v25.7.1...v25.8.0
 [v25.8.1]: https://github.com/tobymao/sqlglot/compare/v25.8.0...v25.8.1
+[v0.1.3]: https://github.com/ddkang/sqlglot/compare/v0.1.2...v0.1.3
