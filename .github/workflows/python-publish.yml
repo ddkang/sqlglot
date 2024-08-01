@@ -81,21 +81,21 @@ jobs:
         name: wheels
         path: sqlglotrs/dist
 
-  deploy-rs:
-    needs: [should-deploy-rs, build-rs, sdist-rs]
-    if: needs.should-deploy-rs.outputs.deploy == 'true'
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: wheels
-    - name: Publish to PyPI
-      uses: PyO3/maturin-action@v1
-      env:
-        MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-      with:
-        command: upload
-        args: --non-interactive --skip-existing *
+  # deploy-rs:
+  #   needs: [should-deploy-rs, build-rs, sdist-rs]
+  #   if: needs.should-deploy-rs.outputs.deploy == 'true'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/download-artifact@v3
+  #     with:
+  #       name: wheels
+  #   - name: Publish to PyPI
+  #     uses: PyO3/maturin-action@v1
+  #     env:
+  #       MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+  #     with:
+  #       command: upload
+  #       args: --non-interactive --skip-existing *
 
   deploy:
     runs-on: ubuntu-latest
@@ -135,6 +135,6 @@ jobs:
     - name: Commit API docs, CHANGELOG.md
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        branch: main
+        branch: sqlglot
         commit_message: 'docs: update API docs, CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
         file_pattern: 'docs CHANGELOG.md'
