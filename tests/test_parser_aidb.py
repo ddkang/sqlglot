@@ -5,7 +5,6 @@ from sqlglot import ParseError, parse_one
 
 class TestParser(unittest.TestCase):
     def test_error_target_positive(self):
-        print("test_error_target_positive")
         expression = parse_one("SELECT a FROM b ERROR_TARGET 5.8%")
         assert expression.args["error_target"].args["this"].args["this"] == "5.8"
         self.assertEqual(
