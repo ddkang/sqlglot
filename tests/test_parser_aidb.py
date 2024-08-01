@@ -1,11 +1,11 @@
 import unittest
 
-import sqlglot.expressions as exp
-from sqlglot import ErrorLevel, Parser, ParseError, parse, parse_one
+from sqlglot import ParseError, parse_one
 
 
 class TestParser(unittest.TestCase):
     def test_error_target_positive(self):
+        print("test_error_target_positive")
         expression = parse_one("SELECT a FROM b ERROR_TARGET 5.8%")
         assert expression.args["error_target"].args["this"].args["this"] == '5.8'
         self.assertEqual(
@@ -139,6 +139,3 @@ class TestParser(unittest.TestCase):
           "SELECT * FROM test JOIN test2 ON OBJECTS00(test.frame, test.id) = COLORS02(test2.id, test2.name) "
             "WHERE test.frame > 10000",
         )
-
-if __name__ == "__main__":
-    unittest.main()
