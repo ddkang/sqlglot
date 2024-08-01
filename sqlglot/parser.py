@@ -699,6 +699,12 @@ class Parser(metaclass=_Parser):
         exp.Window: lambda self: self._parse_named_window(),
         exp.With: lambda self: self._parse_with(),
         "JOIN_TYPE": lambda self: self._parse_join_parts(),
+        exp.RecallTarget: lambda self: self._parse_recall_target(),
+        exp.PrecisionTarget: lambda self: self._parse_precision_target(),
+        exp.ErrorTarget: lambda self: self._parse_error_target(),
+        exp.Confidence: lambda self: self._parse_confidence(),
+        exp.Budget: lambda self: self._parse_budget(),
+        exp.UsingProxy: lambda self: self._parse_using_proxy(),
     }
 
     STATEMENT_PARSERS = {
@@ -1078,6 +1084,15 @@ class Parser(metaclass=_Parser):
         TokenType.SORT_BY: lambda self: ("sort", self._parse_sort(exp.Sort, TokenType.SORT_BY)),
         TokenType.CONNECT_BY: lambda self: ("connect", self._parse_connect(skip_start_token=True)),
         TokenType.START_WITH: lambda self: ("connect", self._parse_connect()),
+        TokenType.RECALL_TARGET: lambda self: ("recall_target", self._parse_recall_target()),
+        TokenType.PRECISION_TARGET: lambda self: (
+            "precision_target",
+            self._parse_precision_target(),
+        ),
+        TokenType.ERROR_TARGET: lambda self: ("error_target", self._parse_error_target()),
+        TokenType.CONFIDENCE: lambda self: ("confidence", self._parse_confidence()),
+        TokenType.BUDGET: lambda self: ("budget", self._parse_budget()),
+        TokenType.USING_PROXY: lambda self: ("using_proxy", self._parse_using_proxy()),
     }
 
     SET_PARSERS = {
@@ -7017,3 +7032,41 @@ class Parser(metaclass=_Parser):
             files=files,
             params=params,
         )
+
+    def _parse_percentage(self):
+        if self._match(TokenType.NUMBER):
+            number = exp.Literal.number(self._prev.text)
+            if self._match(TokenType.MOD):
+                return number
+            self.raise_error("Expecting %")
+        return None
+
+    def _parse_recall_target(self) -> t.Optional[exp.Expression]:
+        if not self._match(TokenType.RECALL_TARGET):
+            return None
+        return self.expression(exp.RecallTarget, this=self._parse_percentage())
+
+    def _parse_precision_target(self):
+        if not self._match(TokenType.PRECISION_TARGET):
+            return None
+        return self.expression(exp.PrecisionTarget, this=self._parse_percentage())
+
+    def _parse_error_target(self):
+        if not self._match(TokenType.ERROR_TARGET):
+            return None
+        return self.expression(exp.ErrorTarget, this=self._parse_percentage())
+
+    def _parse_confidence(self):
+        if not self._match(TokenType.CONFIDENCE):
+            return None
+        return self.expression(exp.Confidence, this=self._parse_percentage())
+
+    def _parse_budget(self):
+        if not self._match(TokenType.BUDGET):
+            return None
+        return self.expression(exp.Budget, this=self._parse_number())
+
+    def _parse_using_proxy(self):
+        if not self._match(TokenType.USING_PROXY):
+            return None
+        return self.expression(exp.UsingProxy, this=self._parse_string())
