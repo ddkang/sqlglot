@@ -18,7 +18,7 @@ jobs:
       - id: check_deploy
         run: |
           bash ./.github/workflows/should_deploy_sqlglotrs.sh
-          if [ $? -eq 0 ]; then echo "deploy=true" >> $GITHUB_OUTPUT; fi
+          if [ $? -eq 0 ]; then echo "deploy=false" >> $GITHUB_OUTPUT; fi
 
   build-rs:
     needs: should-deploy-rs
@@ -81,21 +81,21 @@ jobs:
         name: wheels
         path: sqlglotrs/dist
 
-  # deploy-rs:
-  #   needs: [should-deploy-rs, build-rs, sdist-rs]
-  #   if: needs.should-deploy-rs.outputs.deploy == 'true'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/download-artifact@v3
-  #     with:
-  #       name: wheels
-  #   - name: Publish to PyPI
-  #     uses: PyO3/maturin-action@v1
-  #     env:
-  #       MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-  #     with:
-  #       command: upload
-  #       args: --non-interactive --skip-existing *
+  deploy-rs:
+    needs: [should-deploy-rs, build-rs, sdist-rs]
+    if: needs.should-deploy-rs.outputs.deploy == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: wheels
+    - name: Publish to PyPI
+      uses: PyO3/maturin-action@v1
+      env:
+        MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+      with:
+        command: upload
+        args: --non-interactive --skip-existing *
 
   deploy:
     runs-on: ubuntu-latest
