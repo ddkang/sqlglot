@@ -119,9 +119,7 @@ class TestRewriter(unittest.TestCase):
             "SELECT * FROM x JOIN y ON x.col1 = y.col1 AND x.col2 = y.col2 WHERE col1 > 5",
         )
 
-        expression = parse_one(
-            "SELECT * FROM x JOIN z ON x.col1 = z.col1 WHERE col1 > 5"
-        )
+        expression = parse_one("SELECT * FROM x JOIN z ON x.col1 = z.col1 WHERE col1 > 5")
 
         self.assertEqual(
             expression.join("y ON OBJECTS00(x.col1) = OBJECTS00(y.col1)")
@@ -133,13 +131,15 @@ class TestRewriter(unittest.TestCase):
 
         # test LEFT JOIN and RIGHT JOIN
         self.assertEqual(
-            expression.join(
-                "LEFT JOIN y ON OBJECTS00(x.col1) = OBJECTS00(y.col1)").join("RIGHT JOIN q ON COLOR(x.col2) = COLOR(q.col2)",
-            ).sql(),
+            expression.join("LEFT JOIN y ON OBJECTS00(x.col1) = OBJECTS00(y.col1)")
+            .join(
+                "RIGHT JOIN q ON COLOR(x.col2) = COLOR(q.col2)",
+            )
+            .sql(),
             "SELECT * FROM x JOIN z ON x.col1 = z.col1 LEFT JOIN y ON OBJECTS00(x.col1) = OBJECTS00(y.col1) "
             "RIGHT JOIN q ON COLOR(x.col2) = COLOR(q.col2) WHERE col1 > 5",
         )
-        
+
         # test INNER JOIN
         self.assertEqual(
             expression.join(

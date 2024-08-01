@@ -3010,7 +3010,7 @@ QUERY_MODIFIERS = {
     "recall_target": False,
     "precision_target": False,
     "error_target": False,
-    "confidence":False,
+    "confidence": False,
     "budget": False,
     "using_proxy": False,
 }
@@ -3211,11 +3211,11 @@ class Lock(Expression):
 # AIDB stuff
 class RecallTarget(Expression):
     arg_types = {"this": True}
-    
+
 
 class PrecisionTarget(Expression):
     arg_types = {"this": True}
-    
+
 
 class ErrorTarget(Expression):
     arg_types = {"this": True}
@@ -3223,11 +3223,11 @@ class ErrorTarget(Expression):
 
 class Confidence(Expression):
     arg_types = {"this": True}
-    
+
 
 class Budget(Expression):
     arg_types = {"this": True}
-    
+
 
 class UsingProxy(Expression):
     arg_types = {"this": True}

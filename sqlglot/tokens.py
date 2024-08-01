@@ -396,7 +396,6 @@ class TokenType(AutoName):
     CONFIDENCE = auto()
     BUDGET = auto()
     USING_PROXY = auto()
-    
 
 
 _ALL_TOKEN_TYPES = list(TokenType)

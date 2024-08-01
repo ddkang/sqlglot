@@ -1085,7 +1085,10 @@ class Parser(metaclass=_Parser):
         TokenType.CONNECT_BY: lambda self: ("connect", self._parse_connect(skip_start_token=True)),
         TokenType.START_WITH: lambda self: ("connect", self._parse_connect()),
         TokenType.RECALL_TARGET: lambda self: ("recall_target", self._parse_recall_target()),
-        TokenType.PRECISION_TARGET: lambda self: ("precision_target", self._parse_precision_target()),
+        TokenType.PRECISION_TARGET: lambda self: (
+            "precision_target",
+            self._parse_precision_target(),
+        ),
         TokenType.ERROR_TARGET: lambda self: ("error_target", self._parse_error_target()),
         TokenType.CONFIDENCE: lambda self: ("confidence", self._parse_confidence()),
         TokenType.BUDGET: lambda self: ("budget", self._parse_budget()),
@@ -7029,7 +7032,7 @@ class Parser(metaclass=_Parser):
             files=files,
             params=params,
         )
-    
+
     def _parse_percentage(self):
         if self._match(TokenType.NUMBER):
             number = exp.Literal.number(self._prev.text)
@@ -7037,12 +7040,12 @@ class Parser(metaclass=_Parser):
                 return number
             self.raise_error("Expecting %")
         return None
-    
+
     def _parse_recall_target(self) -> t.Optional[exp.Expression]:
         if not self._match(TokenType.RECALL_TARGET):
             return None
         return self.expression(exp.RecallTarget, this=self._parse_percentage())
-    
+
     def _parse_precision_target(self):
         if not self._match(TokenType.PRECISION_TARGET):
             return None
@@ -7052,7 +7055,7 @@ class Parser(metaclass=_Parser):
         if not self._match(TokenType.ERROR_TARGET):
             return None
         return self.expression(exp.ErrorTarget, this=self._parse_percentage())
-    
+
     def _parse_confidence(self):
         if not self._match(TokenType.CONFIDENCE):
             return None

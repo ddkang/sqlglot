@@ -4047,7 +4047,7 @@ class Generator(metaclass=_Generator):
     def summarize_sql(self, expression: exp.Summarize) -> str:
         table = " TABLE" if expression.args.get("table") else ""
         return f"SUMMARIZE{table} {self.sql(expression.this)}"
-    
+
     # AQP stuff
     def errortarget_sql(self, expression: exp.ErrorTarget) -> str:
         return f"{self.seg('ERROR_TARGET')} {self.sql(expression, 'this')}{'%'}"
