@@ -40,10 +40,7 @@ Contributions are very welcome in SQLGlot; read the [contribution guide](https:/
 From PyPI:
 
 ```bash
-pip3 install "sqlglot[rs]"
-
-# Without Rust tokenizer (slower):
-# pip3 install sqlglot
+pip3 install sqlglot-aidb
 ```
 
 Or with a local checkout:
