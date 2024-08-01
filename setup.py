@@ -14,7 +14,7 @@ setup(
     description="Extend sqlglot to support AIDB",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="hhttps://github.com/ddkang/sqlglot",
+    url="https://github.com/ddkang/sqlglot",
     author="Daniel Kang",
     author_email="daniel.d.kang@gmail.com",
     license="MIT",
