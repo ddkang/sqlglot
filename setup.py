@@ -10,21 +10,17 @@ def sqlglotrs_version():
 
 
 setup(
-    name="sqlglot",
-    description="An easily customizable SQL parser and transpiler",
+    name="sqlglot-aidb",
+    description="Extend sqlglot to support AIDB",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/tobymao/sqlglot",
-    author="Toby Mao",
-    author_email="toby.mao@gmail.com",
+    url="hhttps://github.com/ddkang/sqlglot",
+    author="Daniel Kang",
+    author_email="daniel.d.kang@gmail.com",
     license="MIT",
     packages=find_packages(include=["sqlglot", "sqlglot.*"]),
     package_data={"sqlglot": ["py.typed"]},
-    use_scm_version={
-        "write_to": "sqlglot/_version.py",
-        "fallback_version": "0.0.0",
-        "local_scheme": "no-local-version",
-    },
+    version="0.1.0",
     setup_requires=["setuptools_scm"],
     python_requires=">=3.7",
     extras_require={
